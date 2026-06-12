@@ -2,6 +2,8 @@ package com.yash.jobportal.controller;
 
 import com.yash.jobportal.dto.ApiResponse;
 import com.yash.jobportal.dto.RegisterRequest;
+import com.yash.jobportal.dto.LoginRequest;
+import com.yash.jobportal.dto.LoginResponse;
 import com.yash.jobportal.service.AuthService;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,5 +25,14 @@ public class AuthController {
         authService.register(request);
 
         return new ApiResponse("User registered successfully");
+    }
+
+    @PostMapping("/login")
+    public LoginResponse login(
+            @RequestBody LoginRequest request
+    ){
+        String token = authService.login(request);
+
+        return new LoginResponse(token);
     }
 }

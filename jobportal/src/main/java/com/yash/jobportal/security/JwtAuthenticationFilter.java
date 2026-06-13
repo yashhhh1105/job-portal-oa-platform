@@ -29,9 +29,9 @@ public class JwtAuthenticationFilter extends
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException{
-        String authHeader = request.getHeader("Authorisation");
+        String authHeader = request.getHeader("Authorization");
 
-        if(authHeader == null || !authHeader.startsWith("Bearer")){
+        if(authHeader == null || !authHeader.startsWith("Bearer ")){
             filterChain.doFilter(request, response);
             return;
         }
@@ -45,7 +45,7 @@ public class JwtAuthenticationFilter extends
                 .getContext()
                 .getAuthentication() == null){
             UserDetails userDetails = userDetailsService
-                    .loadUserByUserName(email);
+                    .loadUserByUsername(email);
 
             if(jwtService.isTokenValid(
                     token,

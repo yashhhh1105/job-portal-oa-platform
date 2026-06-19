@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/candidate")
-public class CandidateController {
+@RequestMapping("/api/recruiter")
+public class RecruiterController {
     @GetMapping("/dashboard")
     public String dashboard(){
-        return "Candidate Dashboard";
+        return "Recruiter Dashboard";
     }
 }

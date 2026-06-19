@@ -30,17 +30,32 @@ public class JobService {
     }
 
     public Page<Job> getAllJobs(
+            String keyword,
             int page,
             int size,
-            String sortBy
+            String sortBy,
+            String direction
     ) {
+
+        Sort sort = direction.equalsIgnoreCase("asc")
+                ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+
         Pageable pageable = PageRequest.of(
                 page,
                 size,
-                Sort.by(sortBy).descending()
+                sort
         );
 
-        return jobRepository.findAll(pageable);
+        if(keyword == null || keyword.isBlank()){
+            return jobRepository.findAll(pageable);
+        }
+
+        return jobRepository.findByTitleContainingIgnoreCaseOrCompanyNameContainingIgnoreCase(
+                keyword,
+                keyword,
+                pageable
+        );
     }
 
     public Job getJobById(Long id){

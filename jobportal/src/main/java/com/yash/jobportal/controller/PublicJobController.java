@@ -15,6 +15,10 @@ public class PublicJobController {
 
     @GetMapping
     public Page<Job> getAllJobs(
+
+            @RequestParam(defaultValue = false)
+            String keyword,
+
             @RequestParam(defaultValue = "0")
             int page,
 
@@ -22,12 +26,17 @@ public class PublicJobController {
             int size,
 
             @RequestParam(defaultValue = "createdAt")
-            String sortBy
+            String sortBy,
+
+            @RequestParam(defaultValue = "desc")
+            String direction
     ) {
         return jobService.getAllJobs(
+                keyword,
                 page,
                 size,
-                sortBy
+                sortBy,
+                direction
         );
     }
 

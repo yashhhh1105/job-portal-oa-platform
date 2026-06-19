@@ -4,6 +4,7 @@ import com.yash.jobportal.dto.JobRequest;
 import com.yash.jobportal.entity.Job;
 import com.yash.jobportal.repository.JobRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -26,5 +27,26 @@ public class JobService {
         job.setCreatedAt(LocalDateTime.now());
 
         return jobRepository.save(job);
+    }
+
+    public Page<Job> getAllJobs(
+            int page,
+            int size,
+            String sortBy
+    ) {
+        Pageable pageable = PageRequest.of(
+                page,
+                size,
+                Sort.by(sortBy).descending()
+        );
+
+        return jobRepository.findAll(pageable);
+    }
+
+    public Job getJobById(Long id){
+
+        return jobRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Job not found"));
     }
 }

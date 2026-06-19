@@ -28,6 +28,16 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**")
                         .permitAll()
+
+                        .requestMatchers("/api/admin/**")
+                        .hasRole("ADMIN")
+
+                        .requestMatchers("/api/recruiter/**")
+                        .hasRole("RECRUITER")
+
+                        .requestMatchers("/api/candidate/**")
+                        .hasAnyRole("CANDIDATE","RECRUITER","ADMIN")
+
                         .anyRequest()
                         .authenticated()
                 )

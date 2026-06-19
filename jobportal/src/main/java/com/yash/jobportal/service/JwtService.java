@@ -22,7 +22,7 @@ public class JwtService {
                 .issuedAt(new Date())
                 .expiration( new Date(System.currentTimeMillis()+1000*60*60*24
                 ))
-                        .signWith(secretKey, SignatureAlgorithm.HS256)
+                .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
 

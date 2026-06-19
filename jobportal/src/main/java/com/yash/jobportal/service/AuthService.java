@@ -2,6 +2,7 @@ package com.yash.jobportal.service;
 
 import com.yash.jobportal.dto.RegisterRequest;
 import com.yash.jobportal.dto.LoginRequest;
+import com.yash.jobportal.entity.Role;
 import com.yash.jobportal.entity.User;
 import com.yash.jobportal.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -36,7 +37,7 @@ public class AuthService {
                 passwordEncoder.encode(request.getPassword())
         );
 
-        user.setRole(request.getRole());
+        user.setRole(Role.CANDIDATE);
 
         userRepository.save(user);
     }

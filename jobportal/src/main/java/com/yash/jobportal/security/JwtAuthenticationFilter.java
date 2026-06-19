@@ -1,6 +1,6 @@
 package com.yash.jobportal.security;
 
-import com.yash.jobportal.config.CustomUserDetailsService;
+import com.yash.jobportal.service.CustomUserDetailsService;
 import com.yash.jobportal.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

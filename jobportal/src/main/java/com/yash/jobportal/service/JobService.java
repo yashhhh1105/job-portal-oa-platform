@@ -49,4 +49,26 @@ public class JobService {
                 .orElseThrow(() ->
                         new RuntimeException("Job not found"));
     }
+
+    public Job updateJob(
+            Long id,
+            JobRequest request
+    ) {
+        Job job = getJobById(id);
+
+        job.setTitle(request.getTitle());
+        job.setDescription(request.getDescription());
+        job.setCompanyName(request.getCompanyName());
+        job.setLocation(request.getLocation());
+        job.setSalary(request.getSalary());
+        job.setJobType(request.getJobType());
+
+        return jobRepository.save(job);
+    }
+
+    public void deleteJob(Long id){
+        Job job = getJobById(id);
+
+        jobRepository.delete(job);
+    }
 }

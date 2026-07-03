@@ -17,7 +17,7 @@ public class JobService {
 
     private final JobRepository jobRepository;
 
-    public Job createjob(JobRequest request) {
+    public Job createjob(JobRequest request, String recruiterEmail) {
         Job job = new Job();
 
         job.setTitle(request.getTitle());
@@ -70,7 +70,7 @@ public class JobService {
 
     public Job updateJob(
             Long id,
-            JobRequest request
+            JobRequest request,
             String recruiterEmail
     ) {
         Job job = getJobById(id);
@@ -89,7 +89,7 @@ public class JobService {
         return jobRepository.save(job);
     }
 
-    public void deleteJob(Long id){
+    public void deleteJob(Long id, String recruiterEmail){
         Job job = getJobById(id);
 
         if(!job.getPostedByEmail().equals(recruiterEmail)){

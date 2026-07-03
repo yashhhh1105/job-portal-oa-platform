@@ -3,7 +3,9 @@ package com.yash.jobportal.controller;
 import com.yash.jobportal.dto.JobRequest;
 import com.yash.jobportal.entity.Job;
 import com.yash.jobportal.service.JobService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,28 +16,32 @@ public class JobController {
     private final JobService jobService;
 
     @PostMapping
-    public Job createJob(
-            @RequestBody JobRequest request
+    public Job createJob( @Valid
+            @RequestBody JobRequest request,
+                          Authentication authentication
             ) {
-        return jobService.createjob(request);
+        return jobService.createjob(request, authentication.getName());
     }
 
     @PutMapping("/{id}")
     public Job updateJob(
             @PathVariable Long id,
-            @RequestBody JobRequest request
+            @Valid @RequestBody JobRequest request,
+            Authentication authentication
     ) {
         return jobService.updateJob(
                 id,
-                request
+                request,
+                authentication.getName()
         );
     }
 
     @DeleteMapping("/{id}")
     public String deleteJob(
-            @PathVariable Long id
+            @PathVariable Long id,
+            Authentication authentication
     ) {
-        jobService.deleteJob(id);
+        jobService.deleteJob(id, authentication.getName());
 
         return "Job deleted successfully";
     }

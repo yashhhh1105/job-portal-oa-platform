@@ -5,6 +5,7 @@ import com.yash.jobportal.dto.RegisterRequest;
 import com.yash.jobportal.dto.LoginRequest;
 import com.yash.jobportal.dto.LoginResponse;
 import com.yash.jobportal.service.AuthService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -20,7 +21,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ApiResponse register(
-            @RequestBody RegisterRequest request
+            @Valid @RequestBody RegisterRequest request
     ){
         authService.register(request);
 
@@ -29,7 +30,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public LoginResponse login(
-            @RequestBody LoginRequest request
+            @Valid @RequestBody LoginRequest request
     ){
         String token = authService.login(request);
 

@@ -22,6 +22,6 @@ public class JobRequest {
     @Positive(message = "Salary must be a positive number")
     private Double salary;
 
-    @Positive(message = "Job Type is required")
+    @NotBlank(message = "Job Type is required")
     private String jobType;
 }

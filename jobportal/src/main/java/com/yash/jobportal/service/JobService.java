@@ -2,6 +2,8 @@ package com.yash.jobportal.service;
 
 import com.yash.jobportal.dto.JobRequest;
 import com.yash.jobportal.entity.Job;
+import com.yash.jobportal.exception.ResourceNotFoundException;
+import com.yash.jobportal.exception.UnauthorizedException;
 import com.yash.jobportal.repository.JobRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
@@ -25,6 +27,7 @@ public class JobService {
         job.setSalary(request.getSalary());
         job.setJobType(request.getJobType());
         job.setCreatedAt(LocalDateTime.now());
+        job.setPostedByEmail(recruiterEmail);
 
         return jobRepository.save(job);
     }
@@ -62,14 +65,19 @@ public class JobService {
 
         return jobRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException("Job not found"));
+                        new ResourceNotFoundException("Job not found with id:" + id));
     }
 
     public Job updateJob(
             Long id,
             JobRequest request
+            String recruiterEmail
     ) {
         Job job = getJobById(id);
+
+        if(!job.getPostedByEmail().equals(recruiterEmail)) {
+            throw new UnauthorizedException(("You are not allowed to modify this job posting"));
+        }
 
         job.setTitle(request.getTitle());
         job.setDescription(request.getDescription());
@@ -83,6 +91,10 @@ public class JobService {
 
     public void deleteJob(Long id){
         Job job = getJobById(id);
+
+        if(!job.getPostedByEmail().equals(recruiterEmail)){
+            throw new UnauthorizedException("You are not allowed to delete this job poating");
+        }
 
         jobRepository.delete(job);
     }

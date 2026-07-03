@@ -37,7 +37,14 @@ public class AuthService {
                 passwordEncoder.encode(request.getPassword())
         );
 
-        user.setRole(Role.CANDIDATE);
+        // Only allow self-service signup as CANDIDATE or RECRUITER.
+        // ADMIN accounts must be created another way (e.g. DataLoader, admin-only endpoint).
+        Role requestedRole = request.getRole();
+        if (requestedRole == Role.CANDIDATE || requestedRole == Role.RECRUITER) {
+            user.setRole(requestedRole);
+        } else {
+            user.setRole(Role.CANDIDATE);
+        }
 
         userRepository.save(user);
     }

@@ -35,4 +35,8 @@ public class Job {
 
     private LocalDateTime createdAt;
 
+    //Email of the recruiter who posted this job. Used to enforce that only
+    //the owning recruiter can update/delete it
+    private String postedByEmail;
+
 }

@@ -32,11 +32,11 @@ public class RegisterRequest {
         this.password=password;
     }
 
-//    public Role getRole(){
-//        return role;
-//    }
+    public Role getRole(){
+        return role;
+    }
 
-//    public void setRole(Role role){
-//        this.role = role;
-//    }
+    public void setRole(Role role){
+        this.role = role;
+    }
 }

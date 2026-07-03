@@ -16,7 +16,7 @@ public class PublicJobController {
     @GetMapping
     public Page<Job> getAllJobs(
 
-            @RequestParam(defaultValue = false)
+            @RequestParam(defaultValue = "false")
             String keyword,
 
             @RequestParam(defaultValue = "0")

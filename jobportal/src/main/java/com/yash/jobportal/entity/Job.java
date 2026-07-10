@@ -39,4 +39,7 @@ public class Job {
     //the owning recruiter can update/delete it
     private String postedByEmail;
 
+    @Enumerated(EnumType.STRING)
+    private JobStatus status = JobStatus.OPEN;
+
 }

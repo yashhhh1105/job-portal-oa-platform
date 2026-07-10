@@ -20,7 +20,7 @@ public class JobController {
             @RequestBody JobRequest request,
                           Authentication authentication
             ) {
-        return jobService.createjob(request, authentication.getName());
+        return jobService.createJob(request, authentication.getName());
     }
 
     @PutMapping("/{id}")

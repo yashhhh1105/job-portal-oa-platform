@@ -2,8 +2,10 @@ package com.yash.jobportal.service;
 
 import com.yash.jobportal.dto.JobRequest;
 import com.yash.jobportal.entity.Job;
+import com.yash.jobportal.exception.BadRequestException;
 import com.yash.jobportal.exception.ResourceNotFoundException;
 import com.yash.jobportal.exception.UnauthorizedException;
+import com.yash.jobportal.repository.ApplicationRepository;
 import com.yash.jobportal.repository.JobRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
@@ -16,8 +18,9 @@ import java.time.LocalDateTime;
 public class JobService {
 
     private final JobRepository jobRepository;
+    private final ApplicationRepository applicationRepository;
 
-    public Job createjob(JobRequest request, String recruiterEmail) {
+    public Job createJob(JobRequest request, String recruiterEmail) {
         Job job = new Job();
 
         job.setTitle(request.getTitle());
@@ -93,7 +96,11 @@ public class JobService {
         Job job = getJobById(id);
 
         if(!job.getPostedByEmail().equals(recruiterEmail)){
-            throw new UnauthorizedException("You are not allowed to delete this job poating");
+            throw new UnauthorizedException("You are not allowed to delete this job posting");
+        }
+
+        if (applicationRepository.existsByJob_Id(id)) {
+            throw new BadRequestException("Cannot delete a job that already has applications. Consider closing it instead.");
         }
 
         jobRepository.delete(job);

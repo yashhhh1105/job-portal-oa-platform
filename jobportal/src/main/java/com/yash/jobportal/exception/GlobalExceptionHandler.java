@@ -60,6 +60,16 @@ public class GlobalExceptionHandler {
 
     // Fallback for anything not explicitly handled above (keeps old behavior
     // of throwing RuntimeException working, but as a 400 instead of a raw 500)
+    @ExceptionHandler(org.springframework.dao.DataIntegrityViolationException.class)
+    public ResponseEntity<ErrorResponse> handleDataIntegrityViolation(
+            org.springframework.dao.DataIntegrityViolationException ex, WebRequest request) {
+        return buildResponse(
+                HttpStatus.CONFLICT,
+                "This operation could not be completed because related data still exists.",
+                request
+        );
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> handleRuntimeException(
             RuntimeException ex, WebRequest request) {

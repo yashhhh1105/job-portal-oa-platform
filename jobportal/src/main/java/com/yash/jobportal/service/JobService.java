@@ -2,6 +2,7 @@ package com.yash.jobportal.service;
 
 import com.yash.jobportal.dto.JobRequest;
 import com.yash.jobportal.entity.Job;
+import com.yash.jobportal.entity.JobStatus;
 import com.yash.jobportal.exception.BadRequestException;
 import com.yash.jobportal.exception.ResourceNotFoundException;
 import com.yash.jobportal.exception.UnauthorizedException;
@@ -89,6 +90,36 @@ public class JobService {
         job.setSalary(request.getSalary());
         job.setJobType(request.getJobType());
 
+        return jobRepository.save(job);
+    }
+
+    public Job closeJob(Long id, String recruiterEmail) {
+        Job job = getJobById(id);
+
+        if (!job.getPostedByEmail().equals(recruiterEmail)) {
+            throw new UnauthorizedException("You are not allowed to close this job posting");
+        }
+
+        if (job.getStatus() == JobStatus.CLOSED) {
+            throw new BadRequestException("This job is already closed");
+        }
+
+        job.setStatus(JobStatus.CLOSED);
+        return jobRepository.save(job);
+    }
+
+    public Job reopenJob(Long id, String recruiterEmail) {
+        Job job = getJobById(id);
+
+        if (!job.getPostedByEmail().equals(recruiterEmail)) {
+            throw new UnauthorizedException("You are not allowed to reopen this job posting");
+        }
+
+        if (job.getStatus() == JobStatus.OPEN) {
+            throw new BadRequestException("This job is already open");
+        }
+
+        job.setStatus(JobStatus.OPEN);
         return jobRepository.save(job);
     }
 

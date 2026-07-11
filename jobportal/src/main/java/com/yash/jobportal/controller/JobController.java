@@ -36,6 +36,22 @@ public class JobController {
         );
     }
 
+    @PutMapping("/{id}/close")
+    public Job closeJob(
+            @PathVariable Long id,
+            Authentication authentication
+    ) {
+        return jobService.closeJob(id, authentication.getName());
+    }
+
+    @PutMapping("/{id}/reopen")
+    public Job reopenJob(
+            @PathVariable Long id,
+            Authentication authentication
+    ) {
+        return jobService.reopenJob(id, authentication.getName());
+    }
+
     @DeleteMapping("/{id}")
     public String deleteJob(
             @PathVariable Long id,

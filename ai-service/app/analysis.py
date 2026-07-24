@@ -13,7 +13,14 @@ KNOWN_SKILLS = [
 
 def _extract_present_skills(text: str) -> set:
     text_lower = text.lower()
-    return {skill for skill in KNOWN_SKILLS if skill in text_lower}
+    present = set()
+    for skill in KNOWN_SKILLS:
+        # \b word boundaries prevent "sql" from matching inside "postgresql",
+        # or e.g. "java" incorrectly matching inside "javascript".
+        pattern = r"\b" + re.escape(skill) + r"\b"
+        if re.search(pattern, text_lower):
+            present.add(skill)
+    return present
 
 
 def analyze_resume(resume_text: str, job_description: str | None) -> dict:

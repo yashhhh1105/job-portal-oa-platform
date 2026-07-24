@@ -12,11 +12,11 @@ public class KafkaTopicConfig {
 
     @Bean
     public NewTopic resumeSubmittedTopic() {
-        return NewTopic.partitioned(RESUME_SUBMITTED_TOPIC, 1, (short) 1).build();
+        return new NewTopic(RESUME_SUBMITTED_TOPIC, 1, (short) 1);
     }
 
     @Bean
     public NewTopic resumeAnalyzedTopic() {
-        return NewTopic.partitioned(RESUME_ANALYZED_TOPIC, 1, (short) 1).build();
+        return new NewTopic(RESUME_ANALYZED_TOPIC, 1, (short) 1);
     }
 }

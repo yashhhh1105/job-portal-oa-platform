@@ -27,7 +27,7 @@ async def _process_message(raw_value: bytes, producer: AIOKafkaProducer) -> None
     logger.info("Processing submission %s", event.submissionId)
 
     try:
-        result = analyze_resume(event.resumeText, event.jobDescription)
+        result = await analyze_resume(event.resumeText, event.jobDescription)
         analyzed = ResumeAnalyzedEvent(
             submissionId=event.submissionId,
             status="DONE",
